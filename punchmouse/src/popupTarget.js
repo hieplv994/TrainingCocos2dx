@@ -1,10 +1,9 @@
-var PopupTargetLayer = cc.Layer.extend({
+var PopUpTargetLayer = cc.Layer.extend({
     ctor:function () {
         this._super();
         this.init();
         this.blockTouch();
     },
-
     init: function(){
         //create layer black when popup open
         var colorLayer = new cc.LayerColor(cc.color(0, 0, 0, 180));
@@ -14,20 +13,25 @@ var PopupTargetLayer = cc.Layer.extend({
 
         //add background
         var sprite = new cc.Sprite.create(res.PopUpTarget_png);
-        sprite.setPosition(cc.winSize.width * 0.5, cc.winSize.height * 0.5);
+        sprite.setPosition(cc.winSize.width * 0.55, cc.winSize.height * 0.5);
         this.addChild(sprite);
 
         //set Button OK
-        var btnPlay = createButton(res.btnOK_png, 0.34, 0.24);
+        var btnPlay = this.createButton(res.btnOK_png, 0.6, 0.22);
         btnPlay.addTouchEventListener(this.touchEventOK, this);
         this.addChild(btnPlay);
 
         //set Button Back
-        var btnBack = createButton(res.btnBack_png, 0.55, 0.24);
+        var btnBack = this.createButton(res.btnBack_png, 0.4, 0.22);
         btnBack.addTouchEventListener(this.touchEventBack, this);
         this.addChild(btnBack);
 
-        //set Label Target
+        //add Sound
+        if(cc.game.SOUND){
+            cc.audioEngine.playMusic(res.BGPlay_auido, true);
+        }
+
+        //set Rule Label Target
         
     },
 
@@ -44,7 +48,7 @@ var PopupTargetLayer = cc.Layer.extend({
 
     //Event Button Play
     touchEventOK: function(sender, type){
-
+        this.removeFromParentAndCleanup(true);
     },
 
     //Envet Button Back
@@ -57,7 +61,6 @@ var PopupTargetLayer = cc.Layer.extend({
                 break;
         }
     },
-
 
     //block touch
     blockTouch: function(){

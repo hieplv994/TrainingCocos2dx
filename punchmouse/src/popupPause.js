@@ -18,17 +18,17 @@ var PopupPauseLayer = cc.Layer.extend({
         this.addChild(sprite);
 
         //set Button Play
-        var btnPlay = createButton(res.btnPlayGame_png, 0.5, 0.5);
+        var btnPlay = this.createButton(res.btnPlayGame_png, 0.45, 0.58);
         btnPlay.addTouchEventListener(this.touchEventPlay, this);
         this.addChild(btnPlay);
 
         //set Button Restart
-        var btnRestart = createButton(res.btnPlay_png, 0.5, 0.5);
+        var btnRestart = this.createButton(res.btnRestart_png, 0.55, 0.5);
         btnRestart.addTouchEventListener(this.touchEventRestart, this);
         this.addChild(btnRestart);
 
         //set Button Go back to Menu
-        var btnBackToMenu = createButton(res.btnPlay_png, 0.5, 0.5);
+        var btnBackToMenu = this.createButton(res.btnBackMenu_png, 0.35, 0.5);
         btnBackToMenu.addTouchEventListener(this.touchEventBackToMenu, this);
         this.addChild(btnBackToMenu);
     },

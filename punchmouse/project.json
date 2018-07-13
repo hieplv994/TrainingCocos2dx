@@ -18,6 +18,7 @@
         "src/popupExit.js",
         "src/popupPause.js",
         "src/popupGameOver.js",
-        "src/play.js"
+        "src/play.js",
+        "src/popupTarget.js"
     ]
 }

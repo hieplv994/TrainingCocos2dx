@@ -46,6 +46,11 @@ var LevelLayer = cc.Layer.extend({
             level++;
         }
 
+        //set music backgourd
+        if(cc.game.MUSIC){
+            cc.audioEngine.playMusic(res.BGHome_audio, true);
+        }
+
     },
 
     //Create Button Level
@@ -56,7 +61,7 @@ var LevelLayer = cc.Layer.extend({
             cc.winSize.width * x, 
             cc.winSize.height * y
         );
-        btnLevel.addTouchEventListener(this.touchBtnLevel(), this);
+        btnLevel.addTouchEventListener(this.touchBtnLevel, this);
         this.addChild(btnLevel);
         if(locklevel){
             btnLevel.setEnabled(false);
@@ -146,7 +151,8 @@ var LevelLayer = cc.Layer.extend({
             default:
                 break;
         }
-    }
+    },
+
 });
 
 var LevelScene = cc.Scene.extend({

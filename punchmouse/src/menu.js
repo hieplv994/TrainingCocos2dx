@@ -103,7 +103,12 @@ var MenuLayer = cc.Layer.extend({
 
     //Controll Sound in game
     onSoundControl: function(){
-        //Code here
+        cc.game.SOUND = !cc.game.SOUND;
+       if(cc.game.SOUND){
+            cc.audioEngine.playMusic(res.BGHome_audio, true);
+       }else{
+            cc.audioEngine.stopMusic();
+       }
     },
 
     // Event click button Exit
@@ -120,6 +125,7 @@ var MenuLayer = cc.Layer.extend({
 
     //Event click button Play
     touchEventPlay: function(sender, type){
+        // debugger
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
                 cc.director.runScene(new LevelScene());

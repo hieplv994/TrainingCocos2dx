@@ -25,11 +25,12 @@ var res = {
     btnOK_png : "res/playBtnOk.png",
     btnBack_png : "res/playBtnBack.png",
     playBackGround_png : "res/playBackgound.png",
-    playMouse_png : "res/PlayMouse.png",
+    playMouseLife_png : "res/playInfLife.png",
     playLevel_png : "res/playInfLevel.png",
     playScore_png : "res/playInfScore.png",
     playInfor_png : "res/playInformation.png",
-    playBtnPause_png : "res/playBtnPause.png"
+    playBtnPause_png : "res/playBtnPause.png",
+    BGPlay_auido : "res/Audio_BGPlay.mp3"
 };
 
 var g_resources = [];
