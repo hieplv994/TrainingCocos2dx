@@ -30,11 +30,13 @@ var LevelLayer = cc.Layer.extend({
         var x = 0.15;    //width
         var y = 0.68;    // height
         var level = 1;
+        cc.game.LEVEL = 0;
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 5; j++){
-                this.createButtonLevel(x, y);
+                var ckecLockLevel = this.ckeckLockLevel(level, x, y, true); // code fix true
+                this.createButtonLevel(x, y, ckecLockLevel, level);
                 this.createLabel(level, x, y - 0.11);
-                this.setStarLockLevel(x, y, this.ckeckLockLevel(level, x, y, true));
+                this.setStarLockLevel(x, y, ckecLockLevel);
                 if(j == 4){
                     x = 0.15;
                 }else{
@@ -56,6 +58,7 @@ var LevelLayer = cc.Layer.extend({
     //Create Button Level
     createButtonLevel: function(x, y, locklevel, level){
         var btnLevel = new ccui.Button();
+        btnLevel._NumberLevel = level;
         btnLevel.loadTextures(res.btnLevel_png);
         btnLevel.setPosition(
             cc.winSize.width * x, 
@@ -64,7 +67,7 @@ var LevelLayer = cc.Layer.extend({
         btnLevel.addTouchEventListener(this.touchBtnLevel, this);
         this.addChild(btnLevel);
         if(locklevel){
-            btnLevel.setEnabled(false);
+            btnLevel.setTouchEnabled(false);
         }
     },
 
@@ -86,15 +89,16 @@ var LevelLayer = cc.Layer.extend({
 
     //check Lock Level
     ckeckLockLevel: function(level, x, y, checkLock){
+        // add img lock
         if(level != 1){
             var spriteLockLevel = new cc.Sprite.create(res.imgLock_png);
             spriteLockLevel.setPosition(
                 cc.winSize.width * x, 
                 cc.winSize.height * y
             );
-            if(checkLock){      
-                this.addChild(spriteLockLevel);
-                return true
+            if(checkLock){    
+                this.addChild(spriteLockLevel, 1);  
+                return true;
             }
             return false;
         }
@@ -122,11 +126,11 @@ var LevelLayer = cc.Layer.extend({
         x -= 0.03;
         for(let i = 0; i < StarNumber; i++){
             var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
-            spriteStarLock.setPosition(
+            spriteStar.setPosition(
             cc.winSize.width * x, 
             cc.winSize.height * y
             );
-            spriteStarLock.setScale(0.8);
+            spriteStar.setScale(0.8);
             x += 0.032;
         }
     },
@@ -136,6 +140,7 @@ var LevelLayer = cc.Layer.extend({
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
                 cc.director.runScene(new PlayScene());
+                cc.game.LEVEL = sender._NumberLevel;
                 break;
             default:
                 break;
@@ -146,7 +151,7 @@ var LevelLayer = cc.Layer.extend({
     touchExitLevel: function(sender, type){
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
-                cc.director.runScene(new ManuScene());
+                cc.director.runScene(new MenuScene());
                 break;
             default:
                 break;

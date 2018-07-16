@@ -30,7 +30,15 @@ var res = {
     playScore_png : "res/playInfScore.png",
     playInfor_png : "res/playInformation.png",
     playBtnPause_png : "res/playBtnPause.png",
-    BGPlay_auido : "res/Audio_BGPlay.mp3"
+    BGPlay_auido : "res/Audio_BGPlay.mp3",
+    playLandUp_png : "res/playLandUp.png",
+    playLandDown_png : "res/playLandDown.png",
+    mouseAnimation_png : "res/MouseAnimation.png",
+    mouseAnimation_plist : "res/MouseAnimation.plist",
+    oldAnimation_png : "res/OldAnimation.png",
+    oldAnimation_plist : "res/OldAnimation.plist",
+    playBoom_png : "res/playBoom.png",
+    playDiamond_png : "res/playDiamond.png",
 };
 
 var g_resources = [];

@@ -45,13 +45,36 @@ var PopupPauseLayer = cc.Layer.extend({
     },
 
     //Event Button Play
-    touchEventPlay: function(sender, type){},
+    touchEventPlay: function(sender, type){
+        this.removeFromParentAndCleanup(true); // remove  layer
+        if(cc.game.SOUND){
+            cc.audioEngine.playMusic(res.BGPlay_auido, true);
+        }else {
+            cc.audioEngine.stopMusic();
+        }
+    },
 
     //Envet Button Restart
-    touchEventRestart: function(sender, type){},
+    touchEventRestart: function(sender, type){
+        switch (type) {
+            case ccui.Widget.TOUCH_BEGAN:
+                cc.director.runScene(new PlayScene());
+                break;
+            default:
+                break;
+        }
+    },
 
     //Event Button BackToMenu
-    touchEventBackToMenu: function(sender, type){},
+    touchEventBackToMenu: function(sender, type){
+        switch (type) {
+            case ccui.Widget.TOUCH_BEGAN:
+                cc.director.runScene(new LevelScene());
+                break;
+            default:
+                break;
+        }
+    },
 
   
 

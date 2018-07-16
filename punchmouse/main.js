@@ -58,6 +58,14 @@ cc.game.onStart = function(){
     cc.game.MUSIC = true;
     cc.game.SOUND = true;
     cc.game.LABELEXIT = "Are you sure you want to quit?";
+    
+    //set Target game play
+    cc.game.LIFEMOUSE = 10;
+    cc.game.COMBO = 2;
+    cc.game.DIAMOND = 0;
+
+    cc.game.SCORE = 0;
+    cc.game.LEVEL = 0;
 
     var sys = cc.sys;
     if(!sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it
@@ -87,7 +95,7 @@ cc.game.onStart = function(){
 
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new ManuScene());
+        cc.director.runScene(new MenuScene());
     }, this);
 };
 cc.game.run();

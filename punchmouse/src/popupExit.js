@@ -56,7 +56,11 @@ var PopUpExitLayer = cc.Layer.extend({
 
     touchEventCancel: function(){
         this.removeFromParentAndCleanup(true); // remove  layer
-        cc.audioEngine.playMusic(res.BGHome_audio, true);
+        if(cc.game.MUSIC){
+            cc.audioEngine.playMusic(res.BGHome_audio, true);
+       }else{
+            cc.audioEngine.stopMusic();
+       }
     },
 
     touchEventOK: function(type){

@@ -7,12 +7,18 @@ var MenuLayer = cc.Layer.extend({
     init: function(){
         // set BackGroud
         var loadingSprite = new cc.Sprite.create(res.loading_png);
-        loadingSprite.setPosition(cc.winSize.width * 0.5, cc.winSize.height * 0.5);
+        loadingSprite.setPosition(
+            cc.winSize.width * 0.5, 
+            cc.winSize.height * 0.5
+        );
         this.addChild(loadingSprite);
 
         // set title
         var titleHome = new cc.Sprite.create(res.titleHome_png);
-        titleHome.setPosition(cc.winSize.width * 0.75, cc.winSize.height * 0.75);
+        titleHome.setPosition(
+            cc.winSize.width * 0.75, 
+            cc.winSize.height * 0.75
+        );
         titleHome.setRotation(30);
         this.addChild(titleHome);
 
@@ -104,11 +110,6 @@ var MenuLayer = cc.Layer.extend({
     //Controll Sound in game
     onSoundControl: function(){
         cc.game.SOUND = !cc.game.SOUND;
-       if(cc.game.SOUND){
-            cc.audioEngine.playMusic(res.BGHome_audio, true);
-       }else{
-            cc.audioEngine.stopMusic();
-       }
     },
 
     // Event click button Exit
@@ -137,7 +138,7 @@ var MenuLayer = cc.Layer.extend({
     
 });
 
-var ManuScene = cc.Scene.extend({
+var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
         var layer = new MenuLayer();

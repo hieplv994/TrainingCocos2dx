@@ -32,7 +32,7 @@ var PopUpTargetLayer = cc.Layer.extend({
         }
 
         //set Rule Label Target
-        
+        this.showLabelTarget(cc.game.LEVEL);
     },
 
     //craete Button
@@ -60,6 +60,29 @@ var PopUpTargetLayer = cc.Layer.extend({
             default:
                 break;
         }
+    },
+
+    //show label target
+    showLabelTarget: function(level){
+        this.setLabel(cc.game.LIFEMOUSE + level - 1, 0.61);
+        this.setLabel(cc.game.COMBO + level - 1, 0.485);
+        this.setLabel(cc.game.DIAMOND + level - 1, 0.355);
+    },
+
+    //set label
+    setLabel: function(int, y){
+        var label = new cc.LabelTTF(
+            int.toString(), 
+            'Consola', 45,
+            cc.size(100, 0),
+            cc.TEXT_ALIGNMENT_CENTER
+        );
+        label.setColor(cc.color.WHITE);
+        label.setPosition(
+            cc.winSize.width * 0.6, 
+            cc.winSize.height * y
+        );
+        this.addChild(label);
     },
 
     //block touch
