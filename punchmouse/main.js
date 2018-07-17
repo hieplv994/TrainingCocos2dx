@@ -66,6 +66,9 @@ cc.game.onStart = function(){
 
     cc.game.SCORE = 0;
     cc.game.LEVEL = 0;
+    
+    //Time play level
+    cc.game.TIMEPLAY = 120;
 
     var sys = cc.sys;
     if(!sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it

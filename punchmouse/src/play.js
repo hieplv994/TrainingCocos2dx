@@ -1,3 +1,5 @@
+var arrLocation = [];
+
 var PlayLayer = cc.Layer.extend({
     ctor:function () {
         this._super();
@@ -5,6 +7,11 @@ var PlayLayer = cc.Layer.extend({
     },
 
     init: function(){
+        cc.director.resume();
+        //add Sprite frame cache
+        cc.spriteFrameCache.addSpriteFrames(res.mouseAnimation_plist);
+        cc.spriteFrameCache.addSpriteFrames(res.oldAnimation_plist);
+
         //Add background
         var playBackGroundSprite = new cc.Sprite.create(res.playBackGround_png);
         playBackGroundSprite.setPosition(
@@ -21,7 +28,7 @@ var PlayLayer = cc.Layer.extend({
             cc.winSize.height * 0.15
         );
         btnBack.addTouchEventListener(this.touchBack, this);
-        this.addChild(btnBack);
+        this.addChild(btnBack, 1);
 
         //create Button Pause Game
         var btnPause = new ccui.Button();
@@ -54,9 +61,13 @@ var PlayLayer = cc.Layer.extend({
 
         //set Hole
         this.setHole();
-
-        //show target
-        this.showTarget();
+        
+        //action mouse
+        this.setAction(
+            "#Mouse1.png", 
+            "Mouse", 1, 4, 7, 8, 
+            cc.game.LEVEL
+        );
 
         //add Sound
         if(cc.game.SOUND){
@@ -80,11 +91,13 @@ var PlayLayer = cc.Layer.extend({
 
     //Event Touch Pause Game
     touchPause: function(sender, type){
-        this.addChild(new PopupPauseLayer());
+        cc.director.pause();
+        this.addChild(new PopupPauseLayer(), 3);
     },
 
     // show target
     showTarget: function(){
+        cc.director.pause();
         this.addChild(new PopUpTargetLayer());
     },
 
@@ -119,56 +132,96 @@ var PlayLayer = cc.Layer.extend({
         this.setLabel((cc.game.LIFEMOUSE * 10), 0.13, 0.82);
         this.setLabel(level, 0.14, 0.74);
         this.setLabel(0, 0.14, 0.68);
+        //code here information target count down
     },
 
-    //set sprite
-    setSprite: function(src, x, y){
-        var sprite = new cc.Sprite.create(src);
-        sprite.setPosition(
-            cc.winSize.width * x, 
-            cc.winSize.height * y
-        );
-        this.addChild(sprite);
-    },
-
-    //set hole and random mouse
+    //set hole
     setHole: function(){
         var x = 0.3;
         var y = 0.635;
+        var hole = 1;
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
                 if(i == 0 && j == 3){
                     break;
                 }
-                this.setSprite(res.playLandUp_png, x, y)
-                this.setSprite(res.playLandDown_png, x, y)
+                var spriteUp = this.createSprite(res.playLandUp_png, x, y);
+                this.addChild(spriteUp);
+                var spriteDown = this.createSprite(res.playLandDown_png, x, y);
+                this.addChild(spriteDown, 2);
+                arrLocation.push({
+                    hole: hole,
+                    width: x,
+                    height: y,
+                    checkFill: false
+                });
                 x += 0.2;
+                hole ++;
             }
             x -= 0.74;
             y -= 0.138;
         }
     },
-
-    //Mouse, Old Animation
-    setAnimation: function(src_png, src_plist, x, y, len, string){
+    //create sprite for mouse and old
+    createSprite: function(src_png, x, y){
         var sprite = cc.Sprite.create(src_png);
         sprite.setPosition(
             cc.winSize.width * x, 
             cc.winSize.height * y
         );
-        this.addChild(sprite);
+        return sprite;
+    },
 
-        cc.spriteFrameCache.addSpriteFrames(src_plist);
+    //Mouse, Old Animation
+    setAnimation: function(start, end, string){
         var animFrames = [];
         var str = "";
-        for (var i = 1; i < len; i++) {
+        for (var i = start; i < end; i++) {
             str = string + i + ".png";
             var frame = cc.spriteFrameCache.getSpriteFrame(str);
             animFrames.push(frame);
         }
-        var animation = cc.Animation.create(animFrames, 0.04);
+        var animation = cc.Animation.create(animFrames, 0.08);
         var animate   = cc.Animate.create(animation); 
-        sprite.runAction(animate);
+        return animate;
+    },
+
+    //set time Mouse from up to down for level
+    setTimeActionForLevel: function(level){
+        if(level != 0){
+            var timeDaley = cc.DelayTime.create(3.5 * (1/level));
+            return timeDaley;
+        }
+        return 0;
+    },
+
+    //set Action mouse, old
+    setAction: function(src_png, name, startUp, endUp, 
+        startDown, endDown ,level){
+        var rd = Math.floor((Math.random() * 15));
+        var sprite = this.createSprite(
+            src_png,
+            arrLocation[rd].width - 0.005,
+            arrLocation[rd].height + 0.05
+        );
+        this.addChild(sprite, 1);
+        // set animate mouse up
+        var upAnimate = this.setAnimation(
+            startUp, endUp, name
+        ); 
+        // set animate mouse down
+        var downAnimate = this.setAnimation(
+            startDown, endDown, name
+        );
+        // set delay time 
+        var timeDelay = this.setTimeActionForLevel(level);
+        sprite.runAction(cc.sequence(
+            upAnimate, 
+            timeDelay, 
+            downAnimate,
+            cc.removeSelf(),
+        ));
+
     },
 
 });
@@ -178,6 +231,7 @@ var PlayScene = cc.Scene.extend({
         this._super();
         var layer = new PlayLayer();
         this.addChild(layer);
+        // layer.showTarget();
     }
 });
 

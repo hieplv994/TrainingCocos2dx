@@ -49,6 +49,7 @@ var PopUpTargetLayer = cc.Layer.extend({
     //Event Button Play
     touchEventOK: function(sender, type){
         this.removeFromParentAndCleanup(true);
+        cc.director.resume();
     },
 
     //Envet Button Back

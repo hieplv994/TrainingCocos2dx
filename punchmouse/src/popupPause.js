@@ -46,6 +46,7 @@ var PopupPauseLayer = cc.Layer.extend({
 
     //Event Button Play
     touchEventPlay: function(sender, type){
+        cc.director.resume();
         this.removeFromParentAndCleanup(true); // remove  layer
         if(cc.game.SOUND){
             cc.audioEngine.playMusic(res.BGPlay_auido, true);
