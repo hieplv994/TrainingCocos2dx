@@ -19,6 +19,8 @@
         "src/popupPause.js",
         "src/popupGameOver.js",
         "src/play.js",
+        "src/statusPlayLayer.js",
+        "src/backgroundLayer.js",
         "src/popupTarget.js"
     ]
 }
