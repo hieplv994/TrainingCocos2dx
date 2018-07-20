@@ -30,7 +30,6 @@ var LevelLayer = cc.Layer.extend({
         var x = 0.15;    //width
         var y = 0.68;    // height
         var level = 1;
-        cc.game.LEVEL = 0;
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 5; j++){
                 var ckecLockLevel = this.ckeckLockLevel(level, x, y, true); // code fix true
@@ -140,7 +139,8 @@ var LevelLayer = cc.Layer.extend({
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
                 cc.director.runScene(new PlayScene());
-                cc.game.LEVEL = sender._NumberLevel;
+                // cc.game.LEVEL = sender._NumberLevel; 
+                cc.game.LEVEL = 2; // delete khi xong
                 break;
             default:
                 break;

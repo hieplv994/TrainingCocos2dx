@@ -7,6 +7,8 @@ var StatusPlayLayer = cc.Layer.extend({
     labelTargetDiamond: null,
     mouseLife: 100,
     score: 0,
+    combo: 0,
+
     ctor:function () {
         this._super();
         this.init();
@@ -113,17 +115,117 @@ var StatusPlayLayer = cc.Layer.extend({
         this.addChild(lebelLevel);
         this.labelScore = this.setLabel(this.score, 0.14, 0.68);
         this.addChild(this.labelScore);
-        //code here information target count down
+        // target information
+        this.mouseLifeTarget = cc.game.LIFEMOUSE + cc.game.LEVEL - 1;
+        this.labelTargetMouse = this.setLabel(this.mouseLifeTarget, 0.88, 0.82);
+        this.addChild(this.labelTargetMouse, 0, "mouse");
+
+        this.comboTarget = cc.game.COMBO + cc.game.LEVEL - 1;
+        this.labelTargetCombo = this.setLabel(this.comboTarget, 0.88, 0.755);
+        this.addChild(this.labelTargetCombo);
+
+        this.diamondTarget = cc.game.DIAMOND + cc.game.LEVEL - 1;
+        this.checkDiamond = this.createNode(res.playCheck_png, 0.88, 0.68);
+        this.checkDiamond.setScale(0.8);
+        this.labelTargetDiamond = this.setLabel(this.diamondTarget, 0.88, 0.675);
+        this.addChild(this.checkDiamond);
+        
+        //show label when hit combo
+        this.labelComboShow = this.labelCombo();
+        this.addChild(this.labelComboShow);
     },
 
     //Update label
     updateLabelMouseLife: function(){
-        this.mouseLife = this.mouseLife - 1;
+        this.mouseLife --;
         this.labelMouse.setString(this.mouseLife);
     },
+    //update Score
+    updateLabelScore: function(type){
+        if(type == "Mouse"){
+            this.score = this.score + 20;
+        }else if(type == "Old"){
+            this.score = this.score - 15;
+        }else if(type == "Diamond"){
+            this.score = this.score + 35;
+        }
+        this.labelScore.setString(this.score);
+    },
+    
+    // update information target
+    updateMouseTarget: function(){
+        this.mouseLifeTarget --;
+        if(this.mouseLifeTarget != 0){
+            this.labelTargetMouse.setString(this.mouseLifeTarget);
+        }else{
+            var check = this.createNode(res.playCheck_png, 0.88, 0.82);
+            check.setScale(0.8);
+            this.addChild(check);
+            this.removeChild(this.labelTargetMouse, true);
+            this.winGame();
+        }
+    },
 
-    updateLabelScore: function(){
+    updateDiamondTarget: function(){
+        this.diamondTarget --;
+        if(this.diamondTarget != 0){
+            this.removeChild(this.checkDiamond, true);
+            this.labelTargetDiamond.setString(this.diamondTarget);
+        }else{
+            var check = this.createNode(res.playCheck_png, 0.88, 0.675);
+            this.addChild(check);
+            this.removeChild(this.labelTargetDiamond, true);
+            this.winGame();
+        }
+    },
 
+    updateLabelCombo(){
+        this.combo ++;
+        if(this.combo > 1){
+            var realCombo = this.combo - 1;
+            this.labelComboShow.setString("COMBO x " + realCombo);
+            //update combo on target information
+            if(this.comboTarget > 0){
+                this.comboTarget --;
+                this.labelTargetCombo.setString(this.comboTarget);
+            }else if(this.comboTarget == 0) {
+                var check = this.createNode(res.playCheck_png, 0.88, 0.755);
+                check.setScale(0.8);
+                this.addChild(check);
+                this.removeChild(this.labelTargetCombo, true);
+                this.winGame();
+            }
+        }
+    },
+
+    labelCombo: function(){
+        labelCombo  = new cc.LabelTTF(
+            "", 
+            'Consola', 45,
+            cc.size(300, 0),
+            cc.TEXT_ALIGNMENT_CENTER
+        );
+        labelCombo.setColor(cc.color.BLUE);
+        labelCombo.setPosition(
+            cc.winSize.width * 0.72, 
+            cc.winSize.height * 0.85
+        );
+        return labelCombo;
+     
+    },
+
+    missCombo: function(){
+        this.labelComboShow.setString("");
+        return this.combo = 0;
+    }, 
+
+    winGame: function(){
+        if(this.mouseLifeTarget == 0){
+            if(this.comboTarget == 0 && this.diamondTarget == 0){
+                cc.director.pause();
+                this.addChild(new PopUpWinLayer());
+            }
+        }
     }
 
 });

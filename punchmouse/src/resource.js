@@ -39,6 +39,15 @@ var res = {
     oldAnimation_plist : "res/OldAnimation.plist",
     playBoom_png : "res/playBoom.png",
     playDiamond_png : "res/playDiamond.png",
+    Audio_MousePeek : "res/Audio_MousePeek.mp3",
+    Audio_HitMouse_mp3 : "res/Audio_HitMouse.mp3",
+    Audio_Boom_wav : "res/Audio_Boom.wav",
+    Audio_Old_mp3 : "res/Audio_old.mp3",
+    Audio_Diamond_mp3 : "res/Audio_Diamond.mp3",
+    star_png : "res/stars.png",
+    playCheck_png : "res/playCheck.png",
+    btnNextLevel_png : "res/playBtnNext.png",
+    popUpWin_png : "res/playDialogWin.png"
 };
 
 var g_resources = [];

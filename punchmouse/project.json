@@ -21,6 +21,8 @@
         "src/play.js",
         "src/statusPlayLayer.js",
         "src/backgroundLayer.js",
-        "src/popupTarget.js"
+        "src/popupTarget.js",
+        "src/popupWin.js",
+        "src/popupLose.js"
     ]
 }
