@@ -39,7 +39,7 @@ var BackgroundLayer = cc.Layer.extend({
                     cc.winSize.height * y
                 );
                 this.addChild(spriteDown, 3);
-                this._landframes.push(spriteUp);
+                this._landframes.push(spriteDown);
                 x += 0.2;
             }
             x -= 0.74;
@@ -48,6 +48,9 @@ var BackgroundLayer = cc.Layer.extend({
         delayMouse = cc.DelayTime.create(3);
         if(cc.game.LEVEL < 2){
             this.updateAction("Mouse");
+            // this.updateAction("Diamond");
+            // this.updateAction("Old");
+            // this.updateAction("Boom");
         } else if(cc.game.LEVEL > 1 && cc.game.LEVEL < 5){
             this.updateAction("Mouse");
             this.updateAction("Diamond");
@@ -193,7 +196,7 @@ var HoleSprite = cc.Sprite.extend({
                         cc.audioEngine.playEffect(res.Audio_Old_mp3);
                     }
                     // disable event
-                    parent.listener.setEnable(false);
+                    parent.listener.setEnabled(false);
 
                 }else// event click hit boom
                 if(target == parent.spriteBoom){
@@ -205,7 +208,7 @@ var HoleSprite = cc.Sprite.extend({
                     {
                         cc.audioEngine.playEffect(res.Audio_Boom_wav);
                     }
-                    parent.listener.setEnable(false);
+                    parent.listener.setEnabled(false);
                 }else // event hit diamond
                 if(target == parent.spriteDiamond){
                     parent._checkTouch = true;
@@ -222,17 +225,8 @@ var HoleSprite = cc.Sprite.extend({
                         cc.audioEngine.playEffect(res.Audio_Diamond_mp3);
                     }
                     //create effect ParticleFlower
-                    var particle = new cc.ParticleFlower();
-                    target.addChild(particle);
-                    particle.setSpeed(120);
-                    //set time effect
-                    particle.setDuration(1.5);
-                    //set position
-                    particle.setPosition(
-                        cc.winSize.width *0.02, 
-                        cc.winSize.height * 0.05
-                    );
-                    particle.texture = cc.textureCache.addImage(res.star_png);
+                    var particle = parent.hitDiamondEffect();
+                    parent.addChild(particle, 10);
                     parent.listener.setEnabled(false);
                 }
             }
@@ -313,14 +307,14 @@ var HoleSprite = cc.Sprite.extend({
         PlayLayerGlobal._status.updateMouseTarget();
     },
 
-    olodAction: function(){
+    oldAction: function(){
         this._checkFill = true;
         // create sprite Old
         cc.spriteFrameCache.addSpriteFrames(res.oldAnimation_plist);
         this.spriteOld = this.createSprite(
             "#Old1", 
-            0.08, 
-            0.1
+            0.07, 
+            0.11
         );
         this.addChild(this.spriteOld, 2);
         //Old up animate
@@ -354,8 +348,8 @@ var HoleSprite = cc.Sprite.extend({
         // create sprite Boom
         this.spriteBoom = this.createSprite(
             res.playBoom_png, 
-            0.08, 
-            0.08
+            0.095, 
+            0.095
         );
         this.addChild(this.spriteBoom, 2);
         this.spriteBoom.runAction(cc.sequence( 
@@ -373,7 +367,6 @@ var HoleSprite = cc.Sprite.extend({
 
     hitBoom: function(){
         //show popup you lose
-        // this.addChild(new PopupPauseLayer(), 2);
     },
 
     diamondAction: function(){
@@ -381,7 +374,7 @@ var HoleSprite = cc.Sprite.extend({
         // create sprite Boom
         this.spriteDiamond = this.createSprite(
             res.playDiamond_png, 
-            0.08, 
+            0.07, 
             0.08
         );
         this.addChild(this.spriteDiamond, 2);
@@ -402,5 +395,15 @@ var HoleSprite = cc.Sprite.extend({
         PlayLayerGlobal._status.updateLabelScore("Diamond");
         PlayLayerGlobal._status.updateDiamondTarget();
     },
+
+    hitDiamondEffect: function(){
+        var particle = new cc.ParticleFlower();
+        // this.addChild(particle, 10);
+        particle.texture = cc.textureCache.addImage(res.star_png);
+        particle.setDuration(1);
+        particle.setSpeed(100);
+        particle.setPosition(cc.winSize.width *0.08, cc.winSize.height * 0.1);
+        return particle;
+    }
 
 });

@@ -13,7 +13,8 @@ var PlayLayer = cc.Layer.extend({
         this.addChild(this._background);
         this._status = new StatusPlayLayer();
         this.addChild(this._status);
-        // this.addChild(new PopUpWinLayer(), 3);
+        this._time = new Timelayer();
+        this.addChild(this._time);
     }, 
 
     // show target

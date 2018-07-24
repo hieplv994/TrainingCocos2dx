@@ -55,7 +55,7 @@
 cc.game.onStart = function(){
 
     //check Music, sound
-    cc.game.MUSIC = true;
+    cc.game.MUSIC = false;
     cc.game.SOUND = true;
     cc.game.LABELEXIT = "Are you sure you want to quit?";
     
@@ -63,12 +63,9 @@ cc.game.onStart = function(){
     cc.game.LIFEMOUSE = 10;
     cc.game.COMBO = 2;
     cc.game.DIAMOND = 0;
-
+    
     cc.game.SCORE = 0;
     cc.game.LEVEL = 0;
-    
-    //Time play level
-    cc.game.TIMEPLAY = 120;
 
     var sys = cc.sys;
     if(!sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it

@@ -47,7 +47,8 @@ var res = {
     star_png : "res/stars.png",
     playCheck_png : "res/playCheck.png",
     btnNextLevel_png : "res/playBtnNext.png",
-    popUpWin_png : "res/playDialogWin.png"
+    popUpWin_png : "res/playDialogWin.png",
+    popUpLose_png : "res/playDialogLose.png"
 };
 
 var g_resources = [];

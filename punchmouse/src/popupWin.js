@@ -1,4 +1,4 @@
-var PopUpWinLayer = cc.Layer.extend({
+ var PopUpWinLayer = cc.Layer.extend({
     ctor:function () {
         this._super();
         this.init();
@@ -25,6 +25,13 @@ var PopUpWinLayer = cc.Layer.extend({
         var btnNextLevel = this.createButton(res.btnNextLevel_png, 0.61, 0.25);
         btnNextLevel.addTouchEventListener(this.touchEventNextLvel, this);
         this.addChild(btnNextLevel);
+        
+        //set label
+        this.labelScore = this.setLabel("Score: " + StatusPlayLayerGlobal.score, 0.44, 0.46);
+        this.addChild(this.labelScore);
+        var bestScore = localStorage.getItem("BestScore" + (cc.game.LEVEL - 1));
+        this.labelBestScore = this.setLabel("Best Score: " + bestScore, 0.48, 0.37);
+        this.addChild(this.labelBestScore);
 
         //add Sound
         if(cc.game.SOUND){
@@ -58,12 +65,27 @@ var PopUpWinLayer = cc.Layer.extend({
     touchEventNextLvel: function(sender, type){
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
-                cc.game.LEVEL ++;
                 cc.director.runScene(new PlayScene());
                 break;
             default:
                 break;
         }
+    },
+
+    //set label
+    setLabel: function(int, x, y){
+        var label = new cc.LabelTTF(
+            int.toString(), 
+            'Consola', 40,
+            cc.size(300, 0),
+            cc.TEXT_ALIGNMENT_CENTER
+        );
+        label.setColor(cc.color.WHITE);
+        label.setPosition(
+            cc.winSize.width * x, 
+            cc.winSize.height * y
+        );
+        return label;
     },
 
     //Block touch down

@@ -1,4 +1,5 @@
-
+var levelUnlock = 1;
+var StatusPlayLayerGlobal = null;
 var StatusPlayLayer = cc.Layer.extend({
     labelMouse: null,
     labelScore: null,
@@ -12,6 +13,7 @@ var StatusPlayLayer = cc.Layer.extend({
     ctor:function () {
         this._super();
         this.init();
+        StatusPlayLayerGlobal = this;
     },
 
     init: function(){
@@ -123,12 +125,16 @@ var StatusPlayLayer = cc.Layer.extend({
         this.comboTarget = cc.game.COMBO + cc.game.LEVEL - 1;
         this.labelTargetCombo = this.setLabel(this.comboTarget, 0.88, 0.755);
         this.addChild(this.labelTargetCombo);
-
+    
         this.diamondTarget = cc.game.DIAMOND + cc.game.LEVEL - 1;
         this.checkDiamond = this.createNode(res.playCheck_png, 0.88, 0.68);
         this.checkDiamond.setScale(0.8);
         this.labelTargetDiamond = this.setLabel(this.diamondTarget, 0.88, 0.675);
-        this.addChild(this.checkDiamond);
+        if(cc.game.LEVEL == 1){
+            this.addChild(this.checkDiamond);
+        }else {
+            this.addChild(this.labelTargetDiamond);
+        }
         
         //show label when hit combo
         this.labelComboShow = this.labelCombo();
@@ -158,23 +164,23 @@ var StatusPlayLayer = cc.Layer.extend({
         if(this.mouseLifeTarget != 0){
             this.labelTargetMouse.setString(this.mouseLifeTarget);
         }else{
+            this.removeChild(this.labelTargetMouse, true);
             var check = this.createNode(res.playCheck_png, 0.88, 0.82);
             check.setScale(0.8);
             this.addChild(check);
-            this.removeChild(this.labelTargetMouse, true);
             this.winGame();
         }
     },
 
     updateDiamondTarget: function(){
-        this.diamondTarget --;
-        if(this.diamondTarget != 0){
-            this.removeChild(this.checkDiamond, true);
+        if(this.diamondTarget > 0){
+            this.diamondTarget --;
             this.labelTargetDiamond.setString(this.diamondTarget);
-        }else{
-            var check = this.createNode(res.playCheck_png, 0.88, 0.675);
-            this.addChild(check);
+        }else if(this.diamondTarget == 0){
             this.removeChild(this.labelTargetDiamond, true);
+            var check = this.createNode(res.playCheck_png, 0.88, 0.675);
+            check.setScale(0.8);
+            this.addChild(check);
             this.winGame();
         }
     },
@@ -189,10 +195,10 @@ var StatusPlayLayer = cc.Layer.extend({
                 this.comboTarget --;
                 this.labelTargetCombo.setString(this.comboTarget);
             }else if(this.comboTarget == 0) {
+                this.removeChild(this.labelTargetCombo, true);
                 var check = this.createNode(res.playCheck_png, 0.88, 0.755);
                 check.setScale(0.8);
                 this.addChild(check);
-                this.removeChild(this.labelTargetCombo, true);
                 this.winGame();
             }
         }
@@ -222,9 +228,31 @@ var StatusPlayLayer = cc.Layer.extend({
     winGame: function(){
         if(this.mouseLifeTarget == 0){
             if(this.comboTarget == 0 && this.diamondTarget == 0){
+                this.setBestScore(cc.game.LEVEL);
                 cc.director.pause();
+                PlayLayerGlobal._time.countStar();
+                cc.game.LEVEL ++;
+                if(cc.game.LEVEL > levelUnlock){
+                    levelUnlock++;
+                    localStorage.setItem(
+                        "LevelUnLock",
+                        levelUnlock
+                    );
+                }
                 this.addChild(new PopUpWinLayer());
             }
+        }
+    },
+
+    //set bset score
+    setBestScore: function(level){
+        var bestScore = localStorage.getItem("BestScore" + level);
+        if(bestScore == null){
+            localStorage.setItem("BestScore" + level, this.score);
+        }else if(bestScore <= this.score){
+            localStorage.setItem("BestScore" + level, this.score);
+        }else if(bestScore > this.score){
+            localStorage.setItem("BestScore" + level, bestScore);
         }
     }
 

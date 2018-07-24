@@ -29,22 +29,25 @@ var LevelLayer = cc.Layer.extend({
         //Craete Buttons Level
         var x = 0.15;    //width
         var y = 0.68;    // height
-        var level = 1;
+        var levelMenu = 1;
+        var levelUnlock = localStorage.getItem("LevelUnLock");
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 5; j++){
-                var ckecLockLevel = this.ckeckLockLevel(level, x, y, true); // code fix true
-                this.createButtonLevel(x, y, ckecLockLevel, level);
-                this.createLabel(level, x, y - 0.11);
-                this.setStarLockLevel(x, y, ckecLockLevel);
+                // create button
+                var btn = this.createButtonLevel(levelMenu,x , y);
+                this.addChild(btn);
+                this.checkLockLevel(levelMenu, levelUnlock, x , y, btn);
+                this.setStar(levelMenu, levelUnlock, x, y);
+                this.createLabel(levelMenu, x, y - 0.11);
                 if(j == 4){
                     x = 0.15;
                 }else{
                     x += 0.165;
-                    level++;
+                    levelMenu++;
                 }
             }
             y -= 0.22
-            level++;
+            levelMenu++;
         }
 
         //set music backgourd
@@ -55,7 +58,7 @@ var LevelLayer = cc.Layer.extend({
     },
 
     //Create Button Level
-    createButtonLevel: function(x, y, locklevel, level){
+    createButtonLevel: function(level, x, y){
         var btnLevel = new ccui.Button();
         btnLevel._NumberLevel = level;
         btnLevel.loadTextures(res.btnLevel_png);
@@ -64,9 +67,96 @@ var LevelLayer = cc.Layer.extend({
             cc.winSize.height * y
         );
         btnLevel.addTouchEventListener(this.touchBtnLevel, this);
-        this.addChild(btnLevel);
-        if(locklevel){
+        return btnLevel;
+    },
+
+    //craete Star Level
+    createStarLevel: function(x, y, NumberStar){
+        if(NumberStar == 0){
+            x -= 0.03;
+            for(let i = 0; i < 3; i++){
+                var spriteStar = new cc.Sprite.create(res.imgStartLock_png);
+                spriteStar.setPosition(
+                cc.winSize.width * x, 
+                cc.winSize.height * y
+                );
+                spriteStar.setScale(0.8);
+                this.addChild(spriteStar);
+                x += 0.032;
+            }
+        }else if(NumberStar <= 3){
+            var count = NumberStar;
+            x -= 0.03;
+            for(let i = 0; i < 3; i++){
+                var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
+                var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
+                spriteStarLock.setPosition(
+                    cc.winSize.width * x, 
+                    cc.winSize.height * y
+                    );
+                spriteStar.setPosition(
+                    cc.winSize.width * x, 
+                    cc.winSize.height * y
+                );
+                spriteStar.setScale(0.8);
+                spriteStarLock.setScale(0.8);
+                debugger
+                if(count > 0){
+                    this.addChild(spriteStar);
+                }else if(count == 0){
+                    this.addChild(spriteStarLock);
+                }
+                count--;
+                x += 0.032;
+            }
+        }
+        
+    },
+
+    //set Star
+    setStar: function(level, levelUnlock, x, y){
+        var numberStar = localStorage.getItem("Star" + level);
+        if(level <= levelUnlock){
+            if(numberStar == null){
+                this.createStarLevel(x, y, 0);
+            }else {
+                this.createStarLevel(x, y, numberStar);
+            }
+        }else if(levelUnlock == null && level == 1){
+            this.createStarLevel(x, y, 0);
+        }
+        
+    },
+
+    //check Lock Level
+    checkLockLevel: function(level, levelUnlock,  x, y, btnLevel){
+        var spriteLock = new cc.Sprite.create(res.imgLock_png);
+        spriteLock.setPosition(
+            cc.winSize.width * x, 
+            cc.winSize.height * y
+        );
+        if(levelUnlock == null){
+            if(level != 1){
+                this.addChild(spriteLock, 1);
+                btnLevel.setTouchEnabled(false);
+            }
+        }else if(level > levelUnlock){
+            this.addChild(spriteLock, 1);
             btnLevel.setTouchEnabled(false);
+        }
+        
+        
+    },
+
+    //Event Touch button level
+    touchBtnLevel: function(sender, type){
+        switch (type) {
+            case ccui.Widget.TOUCH_BEGAN:
+                cc.director.runScene(new PlayScene());
+                cc.game.LEVEL = sender._NumberLevel; 
+                break;
+            default:
+                break;
         }
     },
 
@@ -84,67 +174,6 @@ var LevelLayer = cc.Layer.extend({
             cc.winSize.height * y
         );
         this.addChild(labelLevel);
-    },
-
-    //check Lock Level
-    ckeckLockLevel: function(level, x, y, checkLock){
-        // add img lock
-        if(level != 1){
-            var spriteLockLevel = new cc.Sprite.create(res.imgLock_png);
-            spriteLockLevel.setPosition(
-                cc.winSize.width * x, 
-                cc.winSize.height * y
-            );
-            if(checkLock){    
-                this.addChild(spriteLockLevel, 1);  
-                return true;
-            }
-            return false;
-        }
-    },
-
-    //Set StarLock level
-    setStarLockLevel: function(x , y, checkLockLevel){
-        x -= 0.03;
-        for(let i = 0; i < 3; i++){
-            var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
-            spriteStarLock.setPosition(
-            cc.winSize.width * x, 
-            cc.winSize.height * y
-            );
-            spriteStarLock.setScale(0.8);
-            x += 0.032;
-            if(!checkLockLevel){
-                this.addChild(spriteStarLock);
-            }
-        }
-    },
-
-    //Set Star Level
-    setStarLevel: function(x, y, StarNumber){
-        x -= 0.03;
-        for(let i = 0; i < StarNumber; i++){
-            var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
-            spriteStar.setPosition(
-            cc.winSize.width * x, 
-            cc.winSize.height * y
-            );
-            spriteStar.setScale(0.8);
-            x += 0.032;
-        }
-    },
-
-    //Event Touch button level
-    touchBtnLevel: function(sender, type){
-        switch (type) {
-            case ccui.Widget.TOUCH_BEGAN:
-                cc.director.runScene(new PlayScene());
-                // cc.game.LEVEL = sender._NumberLevel; 
-                cc.game.LEVEL = 2; // delete khi xong
-                break;
-            default:
-                break;
-        }
     },
 
     // Event Touch Exit Level
@@ -167,3 +196,4 @@ var LevelScene = cc.Scene.extend({
         this.addChild(layer);
     }
 });
+

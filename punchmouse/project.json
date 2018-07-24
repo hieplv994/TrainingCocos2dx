@@ -23,6 +23,7 @@
         "src/backgroundLayer.js",
         "src/popupTarget.js",
         "src/popupWin.js",
-        "src/popupLose.js"
+        "src/popupLose.js",
+        "src/time.js"
     ]
 }
