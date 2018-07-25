@@ -48,7 +48,10 @@ var res = {
     playCheck_png : "res/playCheck.png",
     btnNextLevel_png : "res/playBtnNext.png",
     popUpWin_png : "res/playDialogWin.png",
-    popUpLose_png : "res/playDialogLose.png"
+    popUpLose_png : "res/playDialogLose.png",
+    BgHome_png : "res/bgHome.png",
+    scrollBarBlack_png : "res/scrollbarBackground.png",
+    scrollBarColor_png : "res/scrollbarColor1.png"
 };
 
 var g_resources = [];

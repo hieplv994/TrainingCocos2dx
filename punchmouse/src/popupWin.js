@@ -33,6 +33,11 @@
         this.labelBestScore = this.setLabel("Best Score: " + bestScore, 0.48, 0.37);
         this.addChild(this.labelBestScore);
 
+        // set star
+        var level = cc.game.LEVEL - 1;
+        var numberStar = localStorage.getItem("Star" + level);
+        this.createStarLevel(0.435, 0.6, numberStar);
+
         //add Sound
         if(cc.game.SOUND){
             cc.audioEngine.playMusic(res.BGPlay_auido, true);
@@ -86,6 +91,33 @@
             cc.winSize.height * y
         );
         return label;
+    },
+
+    createStarLevel: function(x, y, NumberStar){
+        if(NumberStar != 0){
+            var count = NumberStar;
+            for(let i = 0; i < 3; i++){
+                var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
+                spriteStar.setPosition(
+                    cc.winSize.width * x, 
+                    cc.winSize.height * y
+                );
+                spriteStar.setScale(1.5);
+                var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
+                spriteStarLock.setPosition(
+                    cc.winSize.width * x, 
+                    cc.winSize.height * y
+                );
+                spriteStarLock.setScale(1.5);
+                if(count > 0){
+                    this.addChild(spriteStar);
+                }else if(count == 0){
+                    this.addChild(spriteStarLock);
+                }
+                count--;
+                x += 0.08;
+            }
+        }
     },
 
     //Block touch down

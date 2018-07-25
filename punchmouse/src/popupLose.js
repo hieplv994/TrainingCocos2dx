@@ -37,9 +37,21 @@ var PopUpLoseLayer = cc.Layer.extend({
         label.setColor(cc.color.BLACK);
         label.setPosition(
             cc.winSize.width * 0.5, 
-            cc.winSize.height * 0.5
+            cc.winSize.height * 0.4
         );
         this.addChild(label);
+
+        var x = 0.435;
+        for(let i = 0; i < 3; i++){
+            var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
+            spriteStarLock.setPosition(
+                cc.winSize.width * x, 
+                cc.winSize.height * 0.6
+            );
+            spriteStarLock.setScale(0.8);
+            this.addChild(spriteStarLock);
+            x += 0.08;
+        }
     },
 
      //Event Button BackToMenu

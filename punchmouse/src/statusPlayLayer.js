@@ -176,13 +176,14 @@ var StatusPlayLayer = cc.Layer.extend({
         if(this.diamondTarget > 0){
             this.diamondTarget --;
             this.labelTargetDiamond.setString(this.diamondTarget);
-        }else if(this.diamondTarget == 0){
-            this.removeChild(this.labelTargetDiamond, true);
-            var check = this.createNode(res.playCheck_png, 0.88, 0.675);
-            check.setScale(0.8);
-            this.addChild(check);
-            this.winGame();
-        }
+            if(this.diamondTarget == 0){
+                this.removeChild(this.labelTargetDiamond, true);
+                var check = this.createNode(res.playCheck_png, 0.88, 0.675);
+                check.setScale(0.8);
+                this.addChild(check);
+                this.winGame();
+            }
+        } 
     },
 
     updateLabelCombo(){
@@ -192,14 +193,16 @@ var StatusPlayLayer = cc.Layer.extend({
             this.labelComboShow.setString("COMBO x " + realCombo);
             //update combo on target information
             if(this.comboTarget > 0){
+                debugger
                 this.comboTarget --;
                 this.labelTargetCombo.setString(this.comboTarget);
-            }else if(this.comboTarget == 0) {
-                this.removeChild(this.labelTargetCombo, true);
-                var check = this.createNode(res.playCheck_png, 0.88, 0.755);
-                check.setScale(0.8);
-                this.addChild(check);
-                this.winGame();
+                if(this.comboTarget == 0) {
+                    this.removeChild(this.labelTargetCombo, true);
+                    var check = this.createNode(res.playCheck_png, 0.88, 0.755);
+                    check.setScale(0.8);
+                    this.addChild(check);
+                    this.winGame();
+                }
             }
         }
     },

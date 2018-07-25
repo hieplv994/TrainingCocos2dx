@@ -100,7 +100,6 @@ var LevelLayer = cc.Layer.extend({
                 );
                 spriteStar.setScale(0.8);
                 spriteStarLock.setScale(0.8);
-                debugger
                 if(count > 0){
                     this.addChild(spriteStar);
                 }else if(count == 0){

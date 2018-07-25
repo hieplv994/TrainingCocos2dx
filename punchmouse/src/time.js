@@ -5,7 +5,7 @@ var Timelayer = cc.Layer.extend({
     },
     
     init: function () {
-        this.timePlay = 60;
+        this.timePlay = 120;
         this.timeCurrent = this.timePlay;
         this.scheduleUpdate();
     },
