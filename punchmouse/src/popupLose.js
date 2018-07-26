@@ -9,12 +9,18 @@ var PopUpLoseLayer = cc.Layer.extend({
         //create layer black when popup open
         var colorLayer = new cc.LayerColor(cc.color(0, 0, 0, 180));
         colorLayer.ignoreAnchorPointForPosition(false);// set anchor poit will be (0, 0)
-        colorLayer.setPosition(cc.winSize.width * 0.5, cc.winSize.height * 0.5);
+        colorLayer.setPosition(
+            cc.winSize.width * 0.5, 
+            cc.winSize.height * 0.5
+        );
         this.addChild(colorLayer);
 
         //add background
         var sprite = new cc.Sprite.create(res.popUpLose_png);
-        sprite.setPosition(cc.winSize.width * 0.55, cc.winSize.height * 0.5);
+        sprite.setPosition(
+            cc.winSize.width * 0.55, 
+            cc.winSize.height * 0.5
+        );
         this.addChild(sprite);
 
         //button go back menu level

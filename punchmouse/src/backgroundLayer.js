@@ -351,8 +351,8 @@ var HoleSprite = cc.Sprite.extend({
         // create sprite Boom
         this.spriteBoom = this.createSprite(
             res.playBoom_png, 
-            0.095, 
-            0.095
+            0.1, 
+            0.09
         );
         this.addChild(this.spriteBoom, 2);
         this.spriteBoom.runAction(cc.sequence( 
@@ -369,7 +369,8 @@ var HoleSprite = cc.Sprite.extend({
     },
 
     hitBoom: function(){
-        //show popup you lose
+        cc.director.pause();
+        PlayLayerGlobal.addChild(new PopUpLoseLayer(), 7);
     },
 
     diamondAction: function(){
@@ -377,7 +378,7 @@ var HoleSprite = cc.Sprite.extend({
         // create sprite Boom
         this.spriteDiamond = this.createSprite(
             res.playDiamond_png, 
-            0.07, 
+            0.074, 
             0.08
         );
         this.addChild(this.spriteDiamond, 2);
