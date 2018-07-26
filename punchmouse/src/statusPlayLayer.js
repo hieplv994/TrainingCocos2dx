@@ -145,6 +145,10 @@ var StatusPlayLayer = cc.Layer.extend({
     updateLabelMouseLife: function(){
         this.mouseLife --;
         this.labelMouse.setString(this.mouseLife);
+        if(this.mouseLife == 0){
+            cc.director.pause();
+            this.addChild(new PopUpLoseLayer());
+        }
     },
     //update Score
     updateLabelScore: function(type){
@@ -160,15 +164,16 @@ var StatusPlayLayer = cc.Layer.extend({
     
     // update information target
     updateMouseTarget: function(){
-        this.mouseLifeTarget --;
-        if(this.mouseLifeTarget != 0){
+        if(this.mouseLifeTarget > 0){
+            this.mouseLifeTarget --;
             this.labelTargetMouse.setString(this.mouseLifeTarget);
-        }else{
-            this.removeChild(this.labelTargetMouse, true);
-            var check = this.createNode(res.playCheck_png, 0.88, 0.82);
-            check.setScale(0.8);
-            this.addChild(check);
-            this.winGame();
+            if(this.mouseLifeTarget == 0){
+                this.removeChild(this.labelTargetMouse, true);
+                var check = this.createNode(res.playCheck_png, 0.88, 0.82);
+                check.setScale(0.8);
+                this.addChild(check);
+                this.winGame();
+            }
         }
     },
 
@@ -193,7 +198,6 @@ var StatusPlayLayer = cc.Layer.extend({
             this.labelComboShow.setString("COMBO x " + realCombo);
             //update combo on target information
             if(this.comboTarget > 0){
-                debugger
                 this.comboTarget --;
                 this.labelTargetCombo.setString(this.comboTarget);
                 if(this.comboTarget == 0) {
@@ -229,6 +233,9 @@ var StatusPlayLayer = cc.Layer.extend({
     }, 
 
     winGame: function(){
+        if(cc.game.LEVEL > 1){
+            levelUnlock = localStorage.getItem("LevelUnLock");
+        }
         if(this.mouseLifeTarget == 0){
             if(this.comboTarget == 0 && this.diamondTarget == 0){
                 this.setBestScore(cc.game.LEVEL);

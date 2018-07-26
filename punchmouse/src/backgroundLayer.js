@@ -102,17 +102,17 @@ var BackgroundLayer = cc.Layer.extend({
             speed = 2;
         } else if(type == "Old"){
             func = this.actionOld;
-            speed = 2;
+            speed = 3;
         }else if(type == "Diamond"){
             func = this.actionDiamond;
-            speed = 3;
+            speed = 4;
         }else if(type == "Boom"){
             func = this.actionBoom;
             speed = 3.5;
         }
         this.schedule(
             func, 
-            speed / cc.game.LEVEL,
+            speed - cc.game.LEVEL * 0.1,
             cc.REPEAT_FOREVER, 0, ""
         );
     },
@@ -170,8 +170,9 @@ var HoleSprite = cc.Sprite.extend({
                         parent.hitMouseAnimate,
                         cc.removeSelf(),
                         cc.callFunc(function(){
-                            parent._checkTouch = false;
                             PlayLayerGlobal._status.updateLabelCombo();
+                            cc.DelayTime.create(1); // after 1s check Touch -> true for everything don'n up in the hole
+                            parent._checkTouch = false;
                             // PlayLayerGlobal._status.updateComboTarget();
                         }, this)
                     ));
@@ -188,6 +189,7 @@ var HoleSprite = cc.Sprite.extend({
                         parent.hitOldAnimate,
                         cc.removeSelf(),
                         cc.callFunc(function(){
+                            cc.DelayTime.create(1); // after 1s check Touch -> true for everything don'n up in the hole
                             parent._checkTouch = false;
                         }, parent), 
                     ));
@@ -217,6 +219,7 @@ var HoleSprite = cc.Sprite.extend({
                     parent.spriteDiamond.runAction(cc.sequence(
                         cc.removeSelf(), 
                         cc.callFunc(function(){
+                            cc.DelayTime.create(1); // after 1s check Touch -> true for everything don'n up in the hole
                             parent._checkTouch = false;
                         }, parent)
                     ));
@@ -260,7 +263,7 @@ var HoleSprite = cc.Sprite.extend({
     timeDelay: function(){
         var time = 0;
         if(cc.game.LEVEL != 0){
-            time = cc.DelayTime.create(3.5 * (1/cc.game.LEVEL));
+            time = cc.DelayTime.create(3.5 - (0.08 * cc.game.LEVEL));
         }
         return time;
     },

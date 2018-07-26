@@ -84,7 +84,7 @@ var LevelLayer = cc.Layer.extend({
                 this.addChild(spriteStar);
                 x += 0.032;
             }
-        }else if(NumberStar <= 3){
+        }else if(NumberStar <= 3 && NumberStar > 0){
             var count = NumberStar;
             x -= 0.03;
             for(let i = 0; i < 3; i++){

@@ -111,7 +111,7 @@
                 spriteStarLock.setScale(1.5);
                 if(count > 0){
                     this.addChild(spriteStar);
-                }else if(count == 0){
+                }else if(count <= 0){
                     this.addChild(spriteStarLock);
                 }
                 count--;
