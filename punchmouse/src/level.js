@@ -72,44 +72,29 @@ var LevelLayer = cc.Layer.extend({
 
     //craete Star Level
     createStarLevel: function(x, y, NumberStar){
-        if(NumberStar == 0){
-            x -= 0.03;
-            for(let i = 0; i < 3; i++){
-                var spriteStar = new cc.Sprite.create(res.imgStartLock_png);
-                spriteStar.setPosition(
+        var count = NumberStar;
+        x -= 0.03;
+        for(let i = 0; i < 3; i++){
+            var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
+            var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
+            spriteStarLock.setPosition(
                 cc.winSize.width * x, 
                 cc.winSize.height * y
                 );
-                spriteStar.setScale(0.8);
+            spriteStar.setPosition(
+                cc.winSize.width * x, 
+                cc.winSize.height * y
+            );
+            spriteStar.setScale(0.8);
+            spriteStarLock.setScale(0.8);
+            if(count > 0){
                 this.addChild(spriteStar);
-                x += 0.032;
-            }
-        }else if(NumberStar <= 3 && NumberStar > 0){
-            var count = NumberStar;
-            x -= 0.03;
-            for(let i = 0; i < 3; i++){
-                var spriteStar = new cc.Sprite.create(res.imgStarLevel_png);
-                var spriteStarLock = new cc.Sprite.create(res.imgStartLock_png);
-                spriteStarLock.setPosition(
-                    cc.winSize.width * x, 
-                    cc.winSize.height * y
-                    );
-                spriteStar.setPosition(
-                    cc.winSize.width * x, 
-                    cc.winSize.height * y
-                );
-                spriteStar.setScale(0.8);
-                spriteStarLock.setScale(0.8);
-                if(count > 0){
-                    this.addChild(spriteStar);
-                }else if(count == 0){
-                    this.addChild(spriteStarLock);
-                }
                 count--;
-                x += 0.032;
+            }else if(count == 0){
+                this.addChild(spriteStarLock);
             }
+            x += 0.032;
         }
-        
     },
 
     //set Star

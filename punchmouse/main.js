@@ -55,8 +55,8 @@
 cc.game.onStart = function(){
 
     //check Music, sound
-    cc.game.MUSIC = false;
-    cc.game.SOUND = false;
+    cc.game.MUSIC = true;
+    cc.game.SOUND = true;
     cc.game.LABELEXIT = "Are you sure you want to quit?";
     
     //set Target game play
