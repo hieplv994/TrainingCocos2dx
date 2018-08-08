@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HIEP CHAT APP</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/chatappClient.js"></script>
+  </head>
+  <body>
+    <div id="wraper">
+      <div id="loginForm">
+        <h3>Bạn Tên Gì Nhỉ :)) ?</h3>
+        <input type="text" id="txtUserName"/>
+        <input type="button" value="Register" id="btnRegister"/>
+      </div>
+      <div id="chatForm">
+        <div id="online">
+          <div id="boxtitle">NGƯỜI DÙNG TRỰC TUYỂN</div>
+          <div id="boxContent">
+
+          </div>
+        </div>
+        <div id="chatroom">
+          <div id="sayHi">
+            Hello <span id="currentUser"></span>
+            <input type="button" id="btnLogout" value="LogOut">
+          </div>
+          <div id="listmessage">
+
+          </div>
+          <div id="inputchat">
+            <div id="notication"></div>
+            <input type="text" id="txtMessage">
+            <input type="button" id="btnSend" value="SEND">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+body {background-color: #a9b6bc;}
+#wraper{width: 500px; margin: auto}
+#txtUserName{border: solid 1px black}
+#online, #chatroom{min-height: 300}
+#online{width: 30%; float: left; background-color: #d18c64}
+#chatroom{width: 70%; float: right; background-color: #d18c64}
+#boxtitle{border: solid 1px black; padding: 5px; text-align: center; font-weight: bold}
+#boxContent{border: solid 1px black; border-top: none; padding: 5px; text-align: center}
+#sayHi{text-align: right}
+#listmessage{height: 200px; background-color: antiquewhite; margin-bottom: 15px}
+#txtMessage{background-color: transparent; border: solid 1px black}
