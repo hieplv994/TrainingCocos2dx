@@ -1,0 +1,29 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "noCache" : false,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "extensions", "chipmunk"],
+
+    "jsList" : [
+        "javascripts/resource.js",
+        "javascripts/menu.js",
+        "javascripts/level.js",
+        "javascripts/popupExit.js",
+        "javascripts/popupPause.js",
+        "javascripts/play.js",
+        "javascripts/statusPlayLayer.js",
+        "javascripts/backgroundLayer.js",
+        "javascripts/popupTarget.js",
+        "javascripts/popupWin.js",
+        "javascripts/popupLose.js",
+        "javascripts/time.js",
+        "javascripts/punchmouseClient.js"
+    ]
+}
