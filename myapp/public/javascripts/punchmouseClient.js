@@ -55,6 +55,7 @@ client.prototype.sendType = function (data) {
 //send level play
 client.prototype.sendLevel = function(data){
     socket.emit("level", data);
+    setCookie("lv", data, 7);
 };
 //send event miss combo
 client.prototype.missCombo = function(){
@@ -77,6 +78,26 @@ client.prototype.getStar = function(){
     return client.star;
 }
 
+client.prototype.setCookie = function(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+client.prototype.getCookie = function(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
+}
+
 var clientInstance = new client();
-
-

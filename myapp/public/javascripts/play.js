@@ -25,7 +25,7 @@ var PlayLayer = cc.Layer.extend({
         this._popupTarget = new PopUpTargetLayer(data);
         this.addChild(this._popupTarget);
     },
-    // get Target from array Target send by Server
+    // get Target from array Target send from Server
     getTargetForLevel: function(obj, level){
         for(var i = 0; i < obj.length; i++){
             if(obj[i].numberLevel ===  level){

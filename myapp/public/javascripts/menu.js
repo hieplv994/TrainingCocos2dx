@@ -3,7 +3,6 @@ var MenuLayer = cc.Layer.extend({
         this._super();
         this.init();
     },
-
     init: function(){
         // set BackGroud
         var loadingSprite = new cc.Sprite.create(res.loading_png);

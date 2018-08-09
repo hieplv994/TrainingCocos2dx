@@ -1,8 +1,9 @@
 var express = require('express');
 app = express();
 var path = require('path');
-var session      = require('express-session');
-var cookieParser = require('cookie-parser');
+var session = require('express-session');
+// var cookieParser = require('cookie-parser');
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 1000*60*60*24*7}}));
 
 server = require('http').Server(app);
 var io = require('socket.io').listen(server);
@@ -15,6 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
+var levelUnlock = 1;
 var arrTargetforLevel = [];
 var arrBestSocre = [];
 for(let i = 1; i < 16; i++){
@@ -84,6 +86,7 @@ var run =  function(socket){
         if(objTarget.LIFEMOUSE == 0){
             if(objTarget.COMBO == 0 && objTarget.DIAMOND == 0){
                 socket.emit("checkWin");
+                levelUnlock++;
             }
         }
     });
@@ -155,5 +158,8 @@ io.sockets.on('connection', run);
 
 app.get('/', function(req, res) {
     res.render('index');
+    req.session.levelUnlock = {lv: levelUnlock, al: 00};
+    console.log(req.session);
+    console.log(res.cookie);
 });
 
