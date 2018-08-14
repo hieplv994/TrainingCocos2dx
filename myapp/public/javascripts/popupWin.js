@@ -27,15 +27,16 @@
         this.addChild(btnNextLevel);
         
         //set label
+        var level = cc.game.LEVEL - 1;
         this.labelScore = this.setLabel("Score: " + StatusPlayLayerGlobal.score, 0.44, 0.46);
         this.addChild(this.labelScore);
-        var bestScore = localStorage.getItem("BestScore" + (cc.game.LEVEL - 1));
+        // var bestScore = localStorage.getItem("BestScore" + (cc.game.LEVEL - 1));
+        var bestScore = clientInstance.getResult(level, clientInstance.result, "bs");
         this.labelBestScore = this.setLabel("Best Score: " + bestScore, 0.48, 0.37);
         this.addChild(this.labelBestScore);
 
         // set star
-        // var level = cc.game.LEVEL - 1;
-        var numberStar = clientInstance.getStar();
+        var numberStar = clientInstance.getResult(level, clientInstance.result, "star");
         this.createStarLevel(0.435, 0.6, numberStar);
 
         //add Sound
@@ -60,8 +61,7 @@
     touchEventBackToMenu: function(sender, type){
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
-                // clientInstance.backtoMenuLevel();
-                // clientInstance.EventGotoMenuLevel();
+                clientInstance.gotoLevel();
                 cc.director.runScene(new LevelScene());
                 break;
             default:

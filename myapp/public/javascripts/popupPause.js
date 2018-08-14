@@ -60,7 +60,7 @@ var PopupPauseLayer = cc.Layer.extend({
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
                 cc.director.runScene(new PlayScene());
-                clientInstance.resetGame();
+                clientInstance.resetGame(cc.game.LEVEL);
                 break;
             default:
                 break;
@@ -71,8 +71,7 @@ var PopupPauseLayer = cc.Layer.extend({
     touchEventBackToMenu: function(sender, type){
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
-                // clientInstance.backtoMenuLevel();
-                // clientInstance.EventGotoMenuLevel();
+                clientInstance.gotoLevel();
                 cc.director.runScene(new LevelScene());
                 clientInstance.sendLevel(cc.game.LEVEL);
                 break;

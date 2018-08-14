@@ -30,11 +30,12 @@ var LevelLayer = cc.Layer.extend({
         var x = 0.15;    //width
         var y = 0.68;    // height
         var levelMenu = 1;
-        var levelUnlock = localStorage.getItem("LevelUnLock");
+        // var levelUnlock = localStorage.getItem("LevelUnLock");
+        var levelUnlock = (clientInstance.lvUnlock === undefined) ? 1 : clientInstance.lvUnlock;
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 5; j++){
                 // create button
-                var btn = this.createButtonLevel(levelMenu,x , y);
+                var btn = this.createButtonLevel(levelMenu, x , y);
                 this.addChild(btn);
                 this.checkLockLevel(levelMenu, levelUnlock, x , y, btn);
                 this.setStar(levelMenu, levelUnlock, x, y);
@@ -97,7 +98,8 @@ var LevelLayer = cc.Layer.extend({
 
     //set Star
     setStar: function(level, levelUnlock, x, y){
-        var numberStar = localStorage.getItem("Star-Lv" + level);
+        // var numberStar = localStorage.getItem("Star-Lv" + level);
+        var numberStar =  clientInstance.getResult(level, clientInstance.result, "star");
         if(level <= levelUnlock){
             if(numberStar == null){
                 this.createStarLevel(x, y, 0);

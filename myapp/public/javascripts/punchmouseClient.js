@@ -1,8 +1,14 @@
 var socket = io.connect("http://localhost:8888");
 var client = function () {};
+client.prototype.result = [];
 
 socket.on("getTarget", function(data){
     client.objTarget = data;
+    // console.log(document.cookie);
+});
+
+socket.on("lvUnlock", function(data){
+    client.prototype.lvUnlock = parseInt(data)
 });
 
 //receive score from server and update
@@ -38,14 +44,15 @@ socket.on("updateMouseLife", function(data){
 });
 //listen numbers Star from server
 socket.on("getStarAndBestScore", function(data){
-    client.star = parseInt(data.star);
-    var level = parseInt(data.lv);
-    localStorage.setItem("Star-Lv" + level, parseInt(data.star));
-    localStorage.setItem("BestScore" + level, parseInt(data.bs));
+    // client.star = parseInt(data.star);
+    var lv = parseInt(data.lv);
+    var bestScore = parseInt(data.bs);
+    var star = parseInt(data.star);
+    client.prototype.result.push({lv, bestScore, star});
+    // var level = parseInt(data.lv);
+    // localStorage.setItem("Star-Lv" + level, parseInt(data.star));
+    // localStorage.setItem("BestScore" + level, parseInt(data.bs));
     PlayLayerGlobal._status.addChild(new PopUpWinLayer(), 5);
-});
-socket.on("getLevelUnlock", function(data){
-    client.lvUnlock = parseInt(data)
 });
 
 //event hit: send type hit to server
@@ -55,7 +62,7 @@ client.prototype.sendType = function (data) {
 //send level play
 client.prototype.sendLevel = function(data){
     socket.emit("level", data);
-    setCookie("lv", data, 7);
+    // setCookie("lv", data, 7);
 };
 //send event miss combo
 client.prototype.missCombo = function(){
@@ -66,38 +73,51 @@ client.prototype.mouseDown = function(){
     socket.emit("mouseDown");
 };
 //send event reset Game
-client.prototype.resetGame = function(){
-    socket.emit("resetGame");
+client.prototype.resetGame = function(data){
+    socket.emit("resetGame", data);
 };
 //send time to play
 client.prototype.sendTimePlay = function(data){
     socket.emit("timePlay", data);
 };
-
-client.prototype.getStar = function(){
-    return client.star;
-}
-
-client.prototype.setCookie = function(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-client.prototype.getCookie = function(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length,c.length);
+//Send event go to menu level
+client.prototype.gotoLevel = function(){
+    socket.emit("go-to-Level");
+};
+//get Result: get star, get star
+client.prototype.getResult = function(lv, arr, str){
+    for(let i = 0; i < arr.length; i++){
+        if(lv === arr[i].lv){
+            if(str == "star"){
+                return arr[i].star;
+            }else  if(str == "bs"){
+                return arr[i].bestScore;
+            }
         }
     }
-    return "";
+    return null;
 }
+
+// client.prototype.setCookie = function(cname, cvalue, exdays) {
+//     var d = new Date();
+//     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//     var expires = "expires="+ d.toUTCString();
+//     document.cookie = cname + "=" + cvalue + "; " + expires;
+// }
+
+// client.prototype.getCookie = function(cname) {
+//     var name = cname + "=";
+//     var ca = document.cookie.split(';');
+//     for(var i = 0; i <ca.length; i++) {
+//         var c = ca[i];
+//         while (c.charAt(0)==' ') {
+//             c = c.substring(1);
+//         }
+//         if (c.indexOf(name) == 0) {
+//             return c.substring(name.length,c.length);
+//         }
+//     }
+//     return "";
+// }
 
 var clientInstance = new client();

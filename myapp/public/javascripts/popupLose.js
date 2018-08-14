@@ -64,8 +64,7 @@ var PopUpLoseLayer = cc.Layer.extend({
      touchEventBackToMenu: function(sender, type){
         switch (type) {
             case ccui.Widget.TOUCH_BEGAN:
-                // clientInstance.backtoMenuLevel();
-                // clientInstance.EventGotoMenuLevel();
+                clientInstance.gotoLevel();
                 cc.director.runScene(new LevelScene());
                 break;
             default:

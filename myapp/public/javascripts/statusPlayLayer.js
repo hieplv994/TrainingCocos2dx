@@ -229,19 +229,19 @@ var StatusPlayLayer = cc.Layer.extend({
     }, 
 
     winGame: function(){
-        if(cc.game.LEVEL > 1){
-            this.levelUnlock = localStorage.getItem("LevelUnLock");
-        }
+        // if(cc.game.LEVEL > 1){
+        //     this.levelUnlock = localStorage.getItem("LevelUnLock");
+        // }
         // this.setBestScore(cc.game.LEVEL);
         cc.director.pause();
         //send time play from client to server
         var objTimePlay = PlayLayerGlobal._time.countStar();
         clientInstance.sendTimePlay(objTimePlay);
         cc.game.LEVEL ++;
-        if(cc.game.LEVEL > this.levelUnlock){
-            this.levelUnlock++;
-            localStorage.setItem("LevelUnLock", this.levelUnlock);
-        }
+        // if(cc.game.LEVEL > this.levelUnlock){
+        //     this.levelUnlock++;
+        //     localStorage.setItem("LevelUnLock", this.levelUnlock);
+        // }
     },
 
     //set best score

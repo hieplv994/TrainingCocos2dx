@@ -17,6 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 var levelUnlock = 1;
+var result = [];
 var arrTargetforLevel = [];
 var arrBestSocre = [];
 for(let i = 1; i < 16; i++){
@@ -53,7 +54,12 @@ var run =  function(socket){
         DIAMOND: 0
     };
     console.log("A user connect " + socket.id);
+    //send target for level
     socket.emit("getTarget", arrTargetforLevel);
+    //send lv unlock
+    socket.on("go-to-Level", function(){
+        socket.emit("lvUnlock", levelUnlock);
+    });
 
     var countCombo = 0;
     socket.on("type", function(data){
@@ -101,12 +107,18 @@ var run =  function(socket){
         socket.emit("delLabelCombo");
     });
     //listen event reset game
-    socket.on("resetGame", function(){
+    socket.on("resetGame", function(data){
+        var lv = parseInt(data);
+        //reset targer
         objTarget.LIFEMOUSE = 10;
         objTarget.COMBO = 2;
         objTarget.DIAMOND = 0;
         countCombo = 0;
         score = 0;
+        //current target
+        objTarget.LIFEMOUSE += lv - 1;
+        objTarget.COMBO += lv - 1;
+        objTarget.DIAMOND += lv - 1;
     });
 
     // listen event send level
@@ -119,7 +131,7 @@ var run =  function(socket){
         score = 0;
 
         level = data;
-        console.log(level);
+        console.log("Lv: " + level);
         objTarget.LIFEMOUSE += level - 1;
         objTarget.COMBO += level - 1;
         objTarget.DIAMOND += level - 1;
@@ -149,8 +161,18 @@ var run =  function(socket){
         //send star to client
         var bestScore = checkBestScore(arrBestSocre, score, level);
         socket.emit("getStarAndBestScore", {lv: level, star: numberStar, bs: bestScore});
+        result.push({lv: level, star: numberStar, bs: bestScore});
     });
 };
+
+io.set('authorization', function(handshake, accept) {
+    session(handshake, {}, function (err) {
+      if (err) return accept(err)
+      var session = socket.handshake.session;
+      // check the session is valid
+      accept(null, session.userid != null)
+    })
+  })
 
 //run socket
 io.sockets.on('connection', run);
@@ -158,8 +180,9 @@ io.sockets.on('connection', run);
 
 app.get('/', function(req, res) {
     res.render('index');
-    req.session.levelUnlock = {lv: levelUnlock, al: 00};
+    req.session.levelUnlock = levelUnlock;
+    req.session.Result = result;
+    req.session.save();
     console.log(req.session);
-    console.log(res.cookie);
 });
 
