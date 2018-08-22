@@ -13,17 +13,18 @@
 
     "jsList" : [
         "javascripts/resource.js",
-        "javascripts/menu.js",
-        "javascripts/level.js",
-        "javascripts/popupExit.js",
-        "javascripts/popupPause.js",
-        "javascripts/play.js",
+        "javascripts/menuSence.js",
+        "javascripts/levelSence.js",
+        "javascripts/exitLayer.js",
+        "javascripts/pauseLayer.js",
+        "javascripts/playSence.js",
         "javascripts/statusPlayLayer.js",
         "javascripts/backgroundLayer.js",
-        "javascripts/popupTarget.js",
-        "javascripts/popupWin.js",
-        "javascripts/popupLose.js",
-        "javascripts/time.js",
-        "javascripts/punchmouseClient.js"
+        "javascripts/targetLayer.js",
+        "javascripts/winLayer.js",
+        "javascripts/loseLayer.js",
+        "javascripts/timeLayer.js",
+        "javascripts/punchmouseClient.js",
+        "javascripts/common.js"
     ]
 }

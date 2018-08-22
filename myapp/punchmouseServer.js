@@ -165,14 +165,14 @@ var run =  function(socket){
     });
 };
 
-io.set('authorization', function(handshake, accept) {
-    session(handshake, {}, function (err) {
-      if (err) return accept(err)
-      var session = socket.handshake.session;
-      // check the session is valid
-      accept(null, session.userid != null)
-    })
-  })
+// io.set('authorization', function(handshake, accept) {
+//     session(handshake, {}, function (err) {
+//       if (err) return accept(err)
+//       var session = socket.handshake.session;
+//       // check the session is valid
+//       accept(null, session.userid != null)
+//     })
+// })
 
 //run socket
 io.sockets.on('connection', run);

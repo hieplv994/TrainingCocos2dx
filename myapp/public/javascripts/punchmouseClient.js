@@ -4,7 +4,7 @@ client.prototype.result = [];
 
 socket.on("getTarget", function(data){
     client.objTarget = data;
-    // console.log(document.cookie);
+    console.log(data);
 });
 
 socket.on("lvUnlock", function(data){
@@ -52,7 +52,7 @@ socket.on("getStarAndBestScore", function(data){
     // var level = parseInt(data.lv);
     // localStorage.setItem("Star-Lv" + level, parseInt(data.star));
     // localStorage.setItem("BestScore" + level, parseInt(data.bs));
-    PlayLayerGlobal._status.addChild(new PopUpWinLayer(), 5);
+    PlayLayerGlobal._status.addChild(new popupWinLayer(), 5);
 });
 
 //event hit: send type hit to server

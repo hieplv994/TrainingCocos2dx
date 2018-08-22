@@ -1,6 +1,6 @@
 //---------------------- Background Layer ----------------------
 //--------------------------------------------------------------
-var BackgroundLayer = cc.Layer.extend({
+var backgroundLayer = cc.Layer.extend({
     ctor: function () {
         this._super();
         this._landframes = [];
@@ -27,13 +27,13 @@ var BackgroundLayer = cc.Layer.extend({
                 if(i == 0 && j == 3){
                     break;
                 }
-                var spriteUp = new HoleSprite(res.playLandUp_png);
+                var spriteUp = new holeSprite(res.playLandUp_png);
                 spriteUp.setPosition(
                     cc.winSize.width * x, 
                     cc.winSize.height * y
                 );
                 this.addChild(spriteUp, 1);
-                var spriteDown = new HoleSprite(res.playLandDown_png);
+                var spriteDown = new holeSprite(res.playLandDown_png);
                 spriteDown.setPosition(
                     cc.winSize.width * x, 
                     cc.winSize.height * y
@@ -122,7 +122,7 @@ var BackgroundLayer = cc.Layer.extend({
 //--------------------- Hole Sprite -------------------------
 //-----------------------------------------------------------
 
-var HoleSprite = cc.Sprite.extend({
+var holeSprite = cc.Sprite.extend({
     ctor: function (spriteSrc) {
         this._super(spriteSrc);
         this._checkFill = false;
@@ -177,7 +177,7 @@ var HoleSprite = cc.Sprite.extend({
                     ));
                     if(cc.game.SOUND)
                     {
-                        cc.audioEngine.playEffect(res.Audio_HitMouse_mp3);
+                        cc.audioEngine.playEffect(res.audio_HitMouse_mp3);
                     }
                 }else // event click hit old 
                 if(target == parent.spriteOld){
@@ -194,7 +194,7 @@ var HoleSprite = cc.Sprite.extend({
                     ));
                     if(cc.game.SOUND)
                     {
-                        cc.audioEngine.playEffect(res.Audio_Old_mp3);
+                        cc.audioEngine.playEffect(res.audio_Old_mp3);
                     }
                     // disable event
                     parent.listener.setEnabled(false);
@@ -207,7 +207,7 @@ var HoleSprite = cc.Sprite.extend({
                     cc.audioEngine.stopAllEffects();
                     if(cc.game.SOUND)
                     {
-                        cc.audioEngine.playEffect(res.Audio_Boom_wav);
+                        cc.audioEngine.playEffect(res.audio_Boom_wav);
                     }
                     parent.listener.setEnabled(false);
                 }else // event hit diamond
@@ -224,7 +224,7 @@ var HoleSprite = cc.Sprite.extend({
                     ));
                     if(cc.game.SOUND)
                     {
-                        cc.audioEngine.playEffect(res.Audio_Diamond_mp3);
+                        cc.audioEngine.playEffect(res.audio_Diamond_mp3);
                     }
                     //create effect ParticleFlower
                     var particle = parent.hitDiamondEffect();
@@ -283,7 +283,7 @@ var HoleSprite = cc.Sprite.extend({
         var mouseDown = this.setAnimation(7, 8, "Mouse");
         //set sound
         if(cc.game.SOUND){
-            cc.audioEngine.playEffect(res.Audio_MousePeek);
+            cc.audioEngine.playEffect(res.audio_MousePeek);
         }
         this.spriteMouse.runAction(cc.sequence(
             mouseUp, 
@@ -372,7 +372,7 @@ var HoleSprite = cc.Sprite.extend({
 
     hitBoom: function(){
         cc.director.pause();
-        PlayLayerGlobal.addChild(new PopUpLoseLayer(), 7);
+        PlayLayerGlobal.addChild(new popupLoseLayer(), 7);
     },
 
     diamondAction: function(){

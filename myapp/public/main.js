@@ -40,7 +40,7 @@ cc.game.onStart = function(){
     cc.LoaderScene.preload(g_resources, function () {
         
 
-        cc.director.runScene(new MenuScene());
+        cc.director.runScene(new menuScene());
     }, this);
 };
 cc.game.run();

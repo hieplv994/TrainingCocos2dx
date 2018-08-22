@@ -1,5 +1,5 @@
 var StatusPlayLayerGlobal;
-var StatusPlayLayer = cc.Layer.extend({
+var statusPlayLayer = cc.Layer.extend({
     labelMouse: null,
     labelScore: null,
     labelTargetMouse: null,
@@ -16,7 +16,6 @@ var StatusPlayLayer = cc.Layer.extend({
     },
 
     init: function(objTarget){
- 
          //create Button Back Level
          var btnBack = new ccui.Button();
          btnBack.loadTextures(res.btnExitLevel_png);
@@ -24,7 +23,7 @@ var StatusPlayLayer = cc.Layer.extend({
              cc.winSize.width * 0.9, 
              cc.winSize.height * 0.15
          );
-         btnBack.addTouchEventListener(this.touchBack, this);
+         btnBack.addTouchEventListener(commonInstance.gotoMenuLevel, this);
          this.addChild(btnBack, 1);
  
          //create Button Pause Game
@@ -59,29 +58,29 @@ var StatusPlayLayer = cc.Layer.extend({
 
         //add Sound
         if(cc.game.SOUND){
-            cc.audioEngine.playMusic(res.BGPlay_auido, true);
+            cc.audioEngine.playMusic(res.bgPlay_auido, true);
         } else {
             cc.audioEngine.stopMusic();
         }
 
     },
 
-    //Event Touch Back
-    touchBack: function(sender, type){
-        switch (type) {
-            case ccui.Widget.TOUCH_BEGAN:
-                // clientInstance.backtoMenuLevel();
-                cc.director.runScene(new LevelScene());
-                break;
-            default:
-                break;
-        }
-    },
+    //Event Touch Back menu level
+    // touchBack: function(sender, type){
+    //     switch (type) {
+    //         case ccui.Widget.TOUCH_BEGAN:
+    //             clientInstance.gotoLevel();
+    //             cc.director.runScene(new levelScene());
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // },
 
     //Event Touch Pause Game
     touchPause: function(sender, type){
         cc.director.pause();
-        this.addChild(new PopupPauseLayer(), 2);
+        this.addChild(new popupPauseLayer(), 2);
     },
 
     //Create Node 
@@ -129,7 +128,7 @@ var StatusPlayLayer = cc.Layer.extend({
         this.labelMouse.setString(mouseLife);
         if(mouseLife == 0){
             cc.director.pause();
-            this.addChild(new PopUpLoseLayer());
+            this.addChild(new popupLoseLayer());
         }
     },
     //update Score
